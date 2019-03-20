@@ -15,7 +15,7 @@ void setup(){
   zones = new ArrayList<Zone>();
   items = new ArrayList<Item>();
   zones.add(new Zone("Zone1",30,150,100,100));
-  zones.add(new Zone("Zone2",175,150,100,100));
+  zones.add(new Zone("Zone2",185,150,100,100));
   zones.add(new Zone("Zone3",330,150,100,100));
   items.add(new Item("img/sun.png","Zone1"));
   items.add(new Item("img/fire.png","Zone2"));
@@ -70,11 +70,11 @@ void mouseReleased(){
         inZone = true;
         if(zone.title.equals(items.get(touchItem).belong)){//correct
           ansNum -= 1;
-          feedback = new Feedback("Correct!","black");
+          feedback = new Feedback("正確！","black");
           items.get(touchItem).setPositon(zone.x,zone.y);
           items.get(touchItem).locked = true;
         }else{
-          feedback = new Feedback("No, this item does not belong here. Try again.","red");
+          feedback = new Feedback("不，它不應該在這。","red");
           items.get(touchItem).reset();
         }
         touchItem = -1;

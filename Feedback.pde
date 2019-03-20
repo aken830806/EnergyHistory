@@ -11,6 +11,7 @@ class Feedback{
     this.title = title;
     this.feedColor = feedColor;
     font = createFont("Arial",1);
+    font = createFont("細明體",1);
   }
   void display(){
     noStroke();
