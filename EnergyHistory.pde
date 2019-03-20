@@ -7,30 +7,19 @@ int touchItem = -1;
 Feedback feedback;
 int grade = 0;
 int ansNum = 0;
-
-interface JavaScript{
-  void showGrade(String lab_id,String grade);
-}
-
-void bindJavaScript(JavaScript js){
-  javascript = js;
-}
-
-JavaScript javascript;
+boolean showZone = false;
 
 void setup(){
-  size(600,700);
+  size(800,600);
   backgroundImg = loadImage("img/background.PNG");
   zones = new ArrayList<Zone>();
   items = new ArrayList<Item>();
-  zones.add(new Zone("The Top Zone",160,30,196,178));
-  zones.add(new Zone("The Middle Zone",86,210,340,138));
-  zones.add(new Zone("The Bottom Zone",15,350,485,135));
-  items.add(new Item("img/fire.png","The Top Zone"));
-  // items.add(new Item("Goes to the middle","The Middle Zone"));
-  // items.add(new Item("Goes to the bottom","The Bottom Zone"));
-  // items.add(new Item("Goes anywhere"));
-  // items.add(new Item("I don't belong anywhere"));
+  zones.add(new Zone("Zone1",30,150,100,100));
+  zones.add(new Zone("Zone2",175,150,100,100));
+  zones.add(new Zone("Zone3",330,150,100,100));
+  items.add(new Item("img/sun.png","Zone1"));
+  items.add(new Item("img/fire.png","Zone2"));
+  items.add(new Item("img/ship.png","Zone3"));
 }
 
 void draw(){
@@ -39,10 +28,14 @@ void draw(){
   rect(0,0,width,height);
   image(backgroundImg,0,0);
   
-  for(Zone zone:zones){
-    zone.display();
+  if(showZone){
+    for(Zone zone:zones){
+      zone.display();
+    }
   }
+  
   for(Item item:items){
+    item.getSize();
     item.display();
   }
   
@@ -53,7 +46,6 @@ void draw(){
 void mousePressed(){
   int count = 0;
   for(Item item:items){
-      item.getSize();
     if(!item.locked && item.isTouch()){
       touchItem = count;
     }
@@ -78,11 +70,8 @@ void mouseReleased(){
         inZone = true;
         if(zone.title.equals(items.get(touchItem).belong)){//correct
           ansNum -= 1;
-          if(javascript != null && ansNum <= 0){
-            javascript.showGrade("test1","1");
-          }
-          feedback = new Feedback("Correct! This one belongs to "+zone.title,"black");
-          items.get(touchItem).setPositon(260-items.get(touchItem).width/2,zone.y);
+          feedback = new Feedback("Correct!","black");
+          items.get(touchItem).setPositon(zone.x,zone.y);
           items.get(touchItem).locked = true;
         }else{
           feedback = new Feedback("No, this item does not belong here. Try again.","red");
